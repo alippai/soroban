@@ -57,8 +57,9 @@ function update() {
   const inputGoal = $('#inputGoal').val();
   if (inputNumbers === '' || inputGoal === '') return;
   const rows = inputNumbers.split('\n');
-  const filtered = rows.map(row => parseInt(row.replace(/[^\d-]/gi, ''), 10));
-  const results = subsetsEqual(filtered, parseInt(inputGoal, 10));
+  const filtered = rows.map(row => parseInt(row.replace(/[^\d-]/gi, ''), 10)).filter(n => n !== 0);
+  const uniqueInput = [ ...new Set(filtered)];
+  const results = subsetsEqual(uniqueInput, parseInt(inputGoal, 10));
   const sortedResults = results.sort((a, b) => a.length - b.length);
   const shortestResults = sortedResults.filter(result => result.length === sortedResults[0].length);
   const textResults = shortestResults.map(result => result.join('\n'));
