@@ -62,9 +62,10 @@ function update() {
   const sortedResults = results.sort((a, b) => a.length - b.length);
   const shortestResults = sortedResults.filter(result => result.length === sortedResults[0].length);
   const textResults = shortestResults.map(result => result.join('\n'));
+  const uniqueResults = [ ...new Set(textResults)];
   const $result = $('#result');
   $result.html('');
-  textResults.forEach(result => $result.append(`<pre>${result}</pre>`));
+  uniqueResults.forEach(result => $result.append(`<pre>${result}</pre>`));
 }
 
 $(document).ready(() => {
