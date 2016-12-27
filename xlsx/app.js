@@ -36,9 +36,11 @@ $(document).ready(() => {
         colHeads.push(abc[i]);
       }
       $('#thead').append('<tr><th>' + colHeads.join('</th><th>') + '</th></tr>');
+      /*
       $('#result').DataTable({
         paging: false
       });
+      */
     };
     reader.readAsBinaryString(f);
   })
