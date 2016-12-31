@@ -19,7 +19,7 @@ function addTable(groupName, currentTable) {
   }, []);
 
   const table = `<table><tbody>${tbody}</tbody></table>`;
-  const sum = '<b>' + sum.join(', ') + '</b>';
+  const sum = '<b>' + sumNum.join(', ') + '</b>';
   $('#result').append(table);
   $('#result').append(sum);
   $('#result').append('<hr>');
