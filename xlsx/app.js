@@ -74,7 +74,7 @@ function printSheet(worksheet) {
   parsed.forEach(row => row.length = maxCol + 1);
 
   const groups = [];
-  for (let i = firstRow; parsed.length; i++) {
+  for (let i = firstRow; i <= lastRow; i++) {
     const value = parsed[i][groupColIndex];
     if (!groups.includes(value)) {
       groups.push(value);
