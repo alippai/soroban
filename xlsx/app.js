@@ -84,12 +84,11 @@ function printSheet(worksheet) {
   for (let i = firstRow; i <= lastRow; i++) {
     cleanedTable[i] = [];
     for (let j = firstCol; j < maxCol; j++) {
-      cleanedTable[i][j] = parsed[i][j];
+      cleanedTable[i-firstRow][j-firstCol] = parsed[i][j];
     }
-    cleanedTable[i].splice(groupColIndex, 1);
   }
   groups.forEach(group => {
-    const currentTable = cleanedTable.filter(row => row[groupColIndex] === group);
+    const currentTable = cleanedTable.filter(row => row[groupColIndex-firstCol] === group);
     addTable(group, currentTable);
   });
 }
