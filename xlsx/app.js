@@ -45,7 +45,8 @@ $(document).ready(() => {
 
       $('#sheetselector li').click(e => {
         const target = e.target;
-        printSheet(target.innerText());
+        $('#sheetselector').hide();
+        printSheet(target.innerText);
         return false;
       });
 
