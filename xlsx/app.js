@@ -37,7 +37,7 @@ function printSheet(worksheet) {
       }
       const isYear = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020].includes(parsed[j][i]);
       if (firstRow === 0 && isYear) {
-        firstRow = j;
+        firstRow = j + 1;
       }
       if (typeof parsed[j][i] === 'number') continue;
       if (parsed[j][i] !== undefined) {
