@@ -31,13 +31,13 @@ function printSheet(worksheet) {
   for (let i = 0; i < parsed[0].length; i++) {
     colValueCount[i] = {};
     for (let j = 0; j < parsed.length; j++) {
-      const isYear = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020].includes(parsed[j][i]);
-      if (firstRow === 0 && isYear) {
-        firstRow = j;
-      }
       if (parsed[j] === undefined) {
         lastRow = j - 1;
         continue;
+      }
+      const isYear = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020].includes(parsed[j][i]);
+      if (firstRow === 0 && isYear) {
+        firstRow = j;
       }
       if (typeof parsed[j][i] === 'number') continue;
       if (parsed[j][i] !== undefined) {
