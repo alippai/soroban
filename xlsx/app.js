@@ -82,7 +82,7 @@ function printSheet(worksheet) {
   }
   const cleanedTable = [];
   for (let i = firstRow; i <= lastRow; i++) {
-    cleanedTable[i] = [];
+    cleanedTable[i-firstRow] = [];
     for (let j = firstCol; j < maxCol; j++) {
       cleanedTable[i-firstRow][j-firstCol] = parsed[i][j];
     }
