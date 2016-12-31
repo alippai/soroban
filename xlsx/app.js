@@ -13,10 +13,12 @@ function printSheet(worksheet) {
     parsed[row][col] = worksheet[cell].v;
   });
 
+
   const colValueCount = [];
   for (let i = 0; i < parsed[0].length; i++) {
     colValueCount[i] = {};
     for (let j = 0; j < parsed.length; j++) {
+      if (parsed[j] === undefined) continue;
       if (colValueCount[i][parsed[j][i]] === undefined) {
         colValueCount[i][parsed[j][i]] = 0;
       } else {
