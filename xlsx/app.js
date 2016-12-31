@@ -19,6 +19,7 @@ function printSheet(worksheet) {
     colValueCount[i] = {};
     for (let j = 0; j < parsed.length; j++) {
       if (parsed[j] === undefined) continue;
+      if (typeof parsed[j][i] === 'number') continue;
       if (colValueCount[i][parsed[j][i]] === undefined) {
         colValueCount[i][parsed[j][i]] = 1;
       } else {
@@ -40,17 +41,25 @@ function printSheet(worksheet) {
     if (match > 2) groupCols[i] = match;
   });
 
-  debugger;
+  let max = -1;
+  for (let i = 0; i < groupCols.length; i++) {
+    if (groupCols[i] === undefined) continue;
+    max = max > groupCols[i] ? max : groupCols[i];
+  }
+  const groupColIndex = groupCols.indexOf(max);
 
   parsed.forEach(row => row.length = maxCol + 1);
   const emptyRow = '&nbsp</td><td>'.repeat(maxCol) + '&nbsp';
   for (let i = 0; i < 10; i++) {
+    const currentrow = parsed[i];
+    currentrow.splice(groupColIndex, 1);
     const textCells = parsed[i] ? parsed[i].join('</td><td>') : emptyRow;
     const textRow = '<tr><td>' + textCells + '</td></tr>';
     $('#tbody').append(textRow);
   }
   const colHeads = [];
   for (let i = 0; i <= maxCol; i++) {
+    if (i === groupColIndex) continue;
     colHeads.push(abc[i]);
   }
   $('#thead').append('<tr><th>' + colHeads.join('</th><th>') + '</th></tr>');
