@@ -8,7 +8,7 @@ function printSheet(worksheet) {
   cells.forEach(cell => {
     const col = abc.indexOf(cell.substring(0, 1));
     maxCol = maxCol < col ? col : maxCol;
-    const row = parseInt(cell.substring(1));
+    const row = parseInt(cell.substring(1)) - 1;
     if (parsed[row] === undefined) parsed[row] = [];
     parsed[row][col] = worksheet[cell].v;
   });
