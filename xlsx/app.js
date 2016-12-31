@@ -13,6 +13,7 @@ function addTable(groupName, currentTable) {
   });
   const sumNum = toSum.reduce((prev, curr) => {
     for (let i = 0; i < curr.length; i++) {
+      if (!prev[i]) prev[i] = 0;
       prev[i] += curr[i];
     }
     return prev;
