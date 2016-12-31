@@ -37,8 +37,10 @@ $(document).ready(() => {
 
       const workbook = XLSX.read(data, {type: 'binary'});
 
-      for (let i = 0; i < workbook.SheetNames; i++) {
-        $('#sheetselector').append(`<li>${workbook.SheetNames[i]}</li>`);
+      for (let i = 0; i < workbook.SheetNames.length; i++) {
+        const sheetName = workbook.SheetNames[i];
+        const isGL = /GL/g.test(sheetName) ? 'isGL' : 'isNotGL';
+        $('#sheetselector').append(`<li class="${isGL}">${sheetName}</li>`);
       }
 
       $('#sheetselector li').click(e => {
