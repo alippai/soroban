@@ -7,8 +7,22 @@ function addTable(groupName, currentTable) {
     const textCells = currentTable[i].join('</td><td>');
     tbody += '<tr><td>' + textCells + '</td></tr>';
   }
+  const toSum = currentTable.map(row => {
+    const numbers = row.filter(col => typeof col === 'number');
+    return numbers;
+  });
+  const sumNum = toSum.reduce((prev, curr) => {
+    for (let i = 0; i < curr.length; i++) {
+      prev[i] += curr[i];
+    }
+    return prev;
+  }, []);
+
   const table = `<table><tbody>${tbody}</tbody></table>`;
+  const sum = '<b>' + sum.join(', ') + '</b>';
   $('#result').append(table);
+  $('#result').append(sum);
+  $('#result').append('<hr>');
 }
 
 function printSheet(worksheet) {
