@@ -32,6 +32,13 @@
       cursor: pointer;
       background: lightcyan;
     }
+    #rowSelector {
+      display: none;
+    }
+    #rowSelector tr:hover td {
+      background: lightcyan;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -42,10 +49,14 @@
 <div class="container">
   <input type="file" id="file" class="form-control" required="" autofocus="">
   <ul id="sheetselector"></ul>
-  <table id="result">
-    <thead id="thead"></thead>
-    <tbody id="tbody"></tbody>
-  </table>
+  <ul id="groupselector"></ul>
+  <div id="rowSelector">
+    <h3>Select the first row</h3>
+    <table id="result">
+      <thead id="thead"></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
 </div><!-- /.container -->
 <!-- jQuery first, then Tether, then Bootstrap JS. -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>

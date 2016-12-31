@@ -3,6 +3,7 @@ function printSheet(worksheet) {
 
   const cells = Object.keys(worksheet).filter(key => key[0] !== '!');
   const parsed = [];
+
   let maxCol = 0;
   cells.forEach(cell => {
     const col = abc.indexOf(cell.substring(0, 1));
@@ -11,9 +12,39 @@ function printSheet(worksheet) {
     if (parsed[row] === undefined) parsed[row] = [];
     parsed[row][col] = worksheet[cell].v;
   });
+
+  const colValueCount = [];
+  for (let i = 0; i < parsed[0].length; i++) {
+    colValueCount[i] = {};
+    for (let j = 0; j < parsed.length; j++) {
+      if (colValueCount[i][parsed[j][i]] === undefined) {
+        colValueCount[i][parsed[j][i]] = 0;
+      } else {
+        colValueCount[i][parsed[j][i]] += 1;
+      }
+    }
+  }
+
+  const groupCols = [];
+
+  colValueCount.forEach((col, i) => {
+    const values = Object.keys(col);
+    let match = 0;
+    values.forEach(value => {
+      if (col[value] > 2) {
+        match++;
+      }
+    });
+    if (match > 2) groupCols[i] = match;
+  });
+
+  const groupCol = groupCols.sort()[0];
+
+  debugger;
+
   parsed.forEach(row => row.length = maxCol + 1);
   const emptyRow = '&nbsp</td><td>'.repeat(maxCol) + '&nbsp';
-  for (let i = 0; i < parsed.length; i++) {
+  for (let i = 0; i < 10; i++) {
     const textCells = parsed[i] ? parsed[i].join('</td><td>') : emptyRow;
     const textRow = '<tr><td>' + textCells + '</td></tr>';
     $('#tbody').append(textRow);
@@ -23,6 +54,9 @@ function printSheet(worksheet) {
     colHeads.push(abc[i]);
   }
   $('#thead').append('<tr><th>' + colHeads.join('</th><th>') + '</th></tr>');
+  $('#rowSelector tr').click(event => {
+    return false;
+  });
 }
 
 $(document).ready(() => {
@@ -44,14 +78,13 @@ $(document).ready(() => {
       $('#sheetselector li').click(e => {
         const target = e.target;
         $('#sheetselector').hide();
+        $('#rowSelector').show();
         /* Get worksheet */
         const worksheet = workbook.Sheets[target.innerText];
 
         printSheet(worksheet);
         return false;
       });
-
-
     };
     reader.readAsBinaryString(f);
   })
