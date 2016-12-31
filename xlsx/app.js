@@ -20,7 +20,7 @@ function printSheet(worksheet) {
     for (let j = 0; j < parsed.length; j++) {
       if (parsed[j] === undefined) continue;
       if (colValueCount[i][parsed[j][i]] === undefined) {
-        colValueCount[i][parsed[j][i]] = 0;
+        colValueCount[i][parsed[j][i]] = 1;
       } else {
         colValueCount[i][parsed[j][i]] += 1;
       }
@@ -39,8 +39,6 @@ function printSheet(worksheet) {
     });
     if (match > 2) groupCols[i] = match;
   });
-
-  const groupCol = groupCols.sort()[0];
 
   debugger;
 
