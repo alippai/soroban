@@ -1,6 +1,17 @@
-function printSheet(worksheet) {
-  const abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+function addTable(groupName, currentTable) {
+  $('#result').append(`<h3>${groupName}</h3>`);
+  let tbody = '';
+  for (let i = 0; i < currentTable.length; i++) {
+    const textCells = currentTable[i].join('</td><td>');
+    tbody += '<tr><td>' + textCells + '</td></tr>';
+  }
+  const table = `<table><tbody>${tbody}</tbody></table>`;
+  $('#result').append(table);
+}
+
+function printSheet(worksheet) {
   const cells = Object.keys(worksheet).filter(key => key[0] !== '!');
   const parsed = [];
 
@@ -13,13 +24,25 @@ function printSheet(worksheet) {
     parsed[row][col] = worksheet[cell].v;
   });
 
-
   const colValueCount = [];
+  let firstRow = 0;
+  let lastRow = 0;
+  let firstCol = 100;
   for (let i = 0; i < parsed[0].length; i++) {
     colValueCount[i] = {};
     for (let j = 0; j < parsed.length; j++) {
-      if (parsed[j] === undefined) continue;
+      const isYear = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020].includes(parsed[j][i]);
+      if (firstRow === 0 && isYear) {
+        firstRow = j;
+      }
+      if (parsed[j] === undefined) {
+        lastRow = j - 1;
+        continue;
+      }
       if (typeof parsed[j][i] === 'number') continue;
+      if (parsed[j][i] !== undefined) {
+        firstCol = firstCol < i ? firstCol : i;
+      }
       if (colValueCount[i][parsed[j][i]] === undefined) {
         colValueCount[i][parsed[j][i]] = 1;
       } else {
@@ -49,22 +72,25 @@ function printSheet(worksheet) {
   const groupColIndex = groupCols.indexOf(max);
 
   parsed.forEach(row => row.length = maxCol + 1);
-  const emptyRow = '&nbsp</td><td>'.repeat(maxCol) + '&nbsp';
-  for (let i = 0; i < 10; i++) {
-    const currentrow = parsed[i];
-    currentrow.splice(groupColIndex, 1);
-    const textCells = parsed[i] ? parsed[i].join('</td><td>') : emptyRow;
-    const textRow = '<tr><td>' + textCells + '</td></tr>';
-    $('#tbody').append(textRow);
+
+  const groups = [];
+  for (let i = firstRow; parsed.length; i++) {
+    const value = parsed[i][groupColIndex];
+    if (!groups.includes(value)) {
+      groups.push(value);
+    }
   }
-  const colHeads = [];
-  for (let i = 0; i <= maxCol; i++) {
-    if (i === groupColIndex) continue;
-    colHeads.push(abc[i]);
+  const cleanedTable = [];
+  for (let i = firstRow; i <= lastRow; i++) {
+    cleanedTable[i] = [];
+    for (let j = firstCol; j < maxCol; j++) {
+      cleanedTable[i][j] = parsed[i][j];
+    }
+    cleanedTable[i].splice(groupColIndex, 1);
   }
-  $('#thead').append('<tr><th>' + colHeads.join('</th><th>') + '</th></tr>');
-  $('#rowSelector tr').click(event => {
-    return false;
+  groups.forEach(group => {
+    const currentTable = cleanedTable.filter(row => row[groupColIndex] === group);
+    addTable(group, currentTable);
   });
 }
 
