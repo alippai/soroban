@@ -1,6 +1,4 @@
-function printSheet(sheetName) {
-  /* Get worksheet */
-  const worksheet = workbook.Sheets[sheetName];
+function printSheet(worksheet) {
   const abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
   const cells = Object.keys(worksheet).filter(key => key[0] !== '!');
@@ -46,7 +44,10 @@ $(document).ready(() => {
       $('#sheetselector li').click(e => {
         const target = e.target;
         $('#sheetselector').hide();
-        printSheet(target.innerText);
+        /* Get worksheet */
+        const worksheet = workbook.Sheets[target.innerText];
+
+        printSheet(worksheet);
         return false;
       });
 
